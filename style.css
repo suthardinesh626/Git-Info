@@ -10,17 +10,17 @@ body {
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
 }
-.first_info{
-    display: block;
+.first_info {
+  display: block;
 }
 
-.hide_data{
-    visibility: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+.hide_data {
+  visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 #repoContainer {
   display: flex;
@@ -153,7 +153,6 @@ body {
   background: rgb(133, 133, 133);
   color: antiquewhite;
   cursor: pointer;
-
 }
 .edit {
   width: 500px;
@@ -172,7 +171,6 @@ body {
   background: rgb(133, 133, 133);
   color: antiquewhite;
   cursor: pointer;
-
 }
 
 @media screen and (max-width: 480px) {
@@ -225,7 +223,25 @@ body {
     font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
       "Lucida Sans", Arial, sans-serif;
   }
-  .repo{
+  .repo {
     height: 150px;
   }
+}
+
+@media screen and (max-width: 360px) {
+  .edit{
+    width: 350px;
+  }
+  .edit button{
+    width: 45px;
+  }
+  .repo{
+    width: 320px;
+    padding: 6px;
+    /* margin: 10px 0 0 0; */
+    height: 150px;
+    font-size: 13px;
+  }
+  
+
 }

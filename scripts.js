@@ -3,8 +3,8 @@ document.addEventListener("DOMContentLoaded", function () {
     .getElementById("getRepoButton")
     .addEventListener("click", function () {
       let username = document.getElementById("usernameInput").value;
-      document.querySelector('.hide_data').style.visibility = 'visible';
-      document.querySelector('.first_info').style.display = 'none';
+      document.querySelector(".hide_data").style.visibility = "visible";
+      document.querySelector(".first_info").style.display = "none";
       fetch(`https://api.github.com/users/${username}`)
         .then((response) => {
           if (!response.ok) {
@@ -93,10 +93,9 @@ function fetchRepos(username, page, perPage) {
     })
     .then((repos) => {
       const repoContainer = document.getElementById("repoContainer");
+      
       repoContainer.innerHTML = "";
       repos.forEach((repo) => {
-
-        
         const repoDiv = document.createElement("div");
         repoDiv.classList.add("repo");
 
@@ -109,6 +108,9 @@ function fetchRepos(username, page, perPage) {
           repo.language || "No language specified"
         }`;
         repoDiv.appendChild(repoLanguageP);
+
+        const repoLink = document.createElement("p");
+        repoLink.textContent = `${repo.html_url}`;
 
         const repoDetailsDiv = document.createElement("div");
         repoDetailsDiv.classList.add("repo-details");
