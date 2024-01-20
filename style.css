@@ -21,6 +21,8 @@
   font-size: larger;
   /* border: solid gray 3px; */
   text-decoration: underline;
+  margin: 0;
+  padding: 0;
 }
 .repo {
     margin: 30px;
@@ -29,8 +31,8 @@
     margin-bottom: 10px;
     border-radius: 4px;
     background-color: #f9f9f9c7;
-    width: 350px;
-    height: 150px;
+    width: 380px;
+    height: 250px;
     border: solid gray 2px;
     border-radius: 10px;
     box-shadow: 0 1px 1px rgba(0,0,0,0.12), 0 2px 2px rgba(0,0,0,0.12);
@@ -50,4 +52,12 @@
 #userAvatar{
     border-radius: 25px;
     border: solid red 2px;
+}
+.repo-details{
+    /* background-color: red; */
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+    text-align: justify;
+    margin: 0;
+    padding: 0;
 }
