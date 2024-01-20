@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", function () {
     .getElementById("getRepoButton")
     .addEventListener("click", function () {
       let username = document.getElementById("usernameInput").value;
+      document.querySelector('.hide_data').style.visibility = 'visible';
+      document.querySelector('.first_info').style.display = 'none';
       fetch(`https://api.github.com/users/${username}`)
         .then((response) => {
           if (!response.ok) {
@@ -38,68 +40,131 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+let currentPage = 1;
+
 document.addEventListener("DOMContentLoaded", function () {
+  document.getElementById("nextButton").addEventListener("click", function () {
+    let perPage = document.getElementById("perPageInput").value || 5;
+    currentPage++; // Increment the current page
+    let username = document.getElementById("usernameInput").value;
+    fetchRepos(username, currentPage, perPage); // Fetch the next page of repositories with custom per_page
+  });
+
+  document.getElementById("prevButton").addEventListener("click", function () {
+    let perPage = document.getElementById("perPageInput").value || 10;
+    if (currentPage > 1) {
+      currentPage--;
+      let username = document.getElementById("usernameInput").value;
+      fetchRepos(username, currentPage, perPage);
+    }
+  });
   document
     .getElementById("getRepoButton")
     .addEventListener("click", function () {
       let username = document.getElementById("usernameInput").value;
-      fetch(`https://api.github.com/users/${username}/repos`)
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Repositories not found");
-          }
-          return response.json();
-        })
-        .then((repos) => {
-          const repoContainer = document.getElementById("repoContainer");
-          repoContainer.innerHTML = "";
-          repos.forEach((repo) => {
-            const repoDiv = document.createElement("div");
-            repoDiv.classList.add("repo");
-
-            const repoNameP = document.createElement("h4");
-            repoNameP.textContent = `Repository: ${repo.name}`;
-            repoDiv.appendChild(repoNameP);
-
-            const repoLanguageP = document.createElement("h5");
-            repoLanguageP.textContent = `Language: ${
-              repo.language || "No language specified"
-            }`;
-            repoDiv.appendChild(repoLanguageP);
-
-            const repoDetailsDiv = document.createElement("div");
-            repoDetailsDiv.classList.add("repo-details");
-
-            const repoDescriptionP = document.createElement("p");
-            repoDescriptionP.classList.add("repo-description");
-            const truncatedDescription =
-              repo.description && repo.description.length > 200
-                ? repo.description.substring(0, 100) + "...(more)"
-                : repo.description || "No description";
-            repoDescriptionP.textContent = truncatedDescription;
-            repoDetailsDiv.appendChild(repoDescriptionP);
-
-            const repoStarsP = document.createElement("p");
-            repoStarsP.textContent = `Stars: ${repo.stargazers_count}`;
-            repoDetailsDiv.appendChild(repoStarsP);
-
-            const repoUpdatedP = document.createElement("p");
-            repoUpdatedP.textContent = `Last Updated: ${new Date(
-              repo.updated_at
-            ).toLocaleDateString()}`;
-            repoDetailsDiv.appendChild(repoUpdatedP);
-
-            // Append the details div to the main repo div
-            repoDiv.appendChild(repoDetailsDiv);
-
-            // Append the main repo div to the container
-            repoContainer.appendChild(repoDiv);
-          });
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          document.getElementById("repoContainer").textContent =
-            "No public repositories found or user not found.";
-        });
+      let perPage = document.getElementById("perPageInput").value || 10;
+      fetchRepos(username, currentPage, perPage); // Fetch the first page of repositories
     });
+  document.getElementById("applyButton").addEventListener("click", function () {
+    let username = document.getElementById("usernameInput").value;
+    let perPage = document.getElementById("perPageInput").value || 10;
+    fetchRepos(username, currentPage, perPage); // Fetch the first page of repositories
+  });
 });
+
+function fetchRepos(username, page, perPage) {
+  fetch(
+    `https://api.github.com/users/${username}/repos?per_page=${perPage}&page=${page}`
+  )
+    .then((response) => {
+      const linkHeader = response.headers.get("Link");
+      const links = parseLinkHeader(linkHeader);
+      const prevButton = document.getElementById("prevButton");
+      const nextButton = document.getElementById("nextButton");
+
+      // Disable the "Previous" button if there is no previous page
+      prevButton.disabled = !links || !links.prev;
+      // Disable the "Next" button if there is no next page
+      nextButton.disabled = !links || !links.next;
+      if (!response.ok) {
+        throw new Error("Repositories not found");
+      }
+      return response.json();
+    })
+    .then((repos) => {
+      const repoContainer = document.getElementById("repoContainer");
+      repoContainer.innerHTML = "";
+      repos.forEach((repo) => {
+
+        
+        const repoDiv = document.createElement("div");
+        repoDiv.classList.add("repo");
+
+        const repoNameP = document.createElement("h4");
+        repoNameP.textContent = `Repository: ${repo.name}`;
+        repoDiv.appendChild(repoNameP);
+
+        const repoLanguageP = document.createElement("h5");
+        repoLanguageP.textContent = `Language: ${
+          repo.language || "No language specified"
+        }`;
+        repoDiv.appendChild(repoLanguageP);
+
+        const repoDetailsDiv = document.createElement("div");
+        repoDetailsDiv.classList.add("repo-details");
+
+        const repoDescriptionP = document.createElement("p");
+        repoDescriptionP.classList.add("repo-description");
+        const truncatedDescription =
+          repo.description && repo.description.length > 200
+            ? repo.description.substring(0, 50) + "...(more)"
+            : repo.description || "No description";
+        repoDescriptionP.textContent = truncatedDescription;
+        repoDetailsDiv.appendChild(repoDescriptionP);
+
+        const repoStarsP = document.createElement("p");
+        repoStarsP.textContent = `Stars: ${repo.stargazers_count}`;
+        repoDetailsDiv.appendChild(repoStarsP);
+
+        const repoUpdatedP = document.createElement("p");
+        repoUpdatedP.textContent = `Last Updated: ${new Date(
+          repo.updated_at
+        ).toLocaleDateString()}`;
+        repoDetailsDiv.appendChild(repoUpdatedP);
+
+        repoDiv.appendChild(repoDetailsDiv);
+
+        repoContainer.appendChild(repoDiv);
+      });
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      document.getElementById("repoContainer").textContent =
+        "No public repositories found or user not found.";
+    });
+  function updatePaginationButtons() {
+    const prevButton = document.getElementById("prevButton");
+    const nextButton = document.getElementById("nextButton");
+
+    prevButton.disabled = currentPage <= 1;
+  }
+}
+function parseLinkHeader(header) {
+  if (!header || header.length === 0) {
+    return null;
+  }
+
+  const parts = header.split(",");
+  const links = {};
+  parts.forEach((p) => {
+    const section = p.split(";");
+    if (section.length !== 2) {
+      throw new Error("section could not be split on ';'");
+    }
+    const url = section[0].replace(/<(.*)>/, "$1").trim();
+    const name = section[1].replace(/rel="(.*)"/, "$1").trim();
+    links[name] = url;
+  });
+
+  return links;
+}

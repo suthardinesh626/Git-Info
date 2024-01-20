@@ -1,30 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gitrepo</title>
     <link rel="stylesheet" href="style.css" />
-    <link rel="icon" href="/Screenshot 2024-01-20 142919.png" type="image/x-icon">
+    <link
+      rel="icon"
+      href="/Screenshot 2024-01-20 142919.png"
+      type="image/x-icon"
+    />
+  </head>
+
+  <body>
     <script src="scripts.js"></script>
-</head>
-
-<body>
     <div class="header">
-        <input type="text" value="suthardinesh626" id="usernameInput" placeholder="Enter Github Username" />
-        <button id="getRepoButton">Get My Repository</button>
+      <input
+        type="text"
+        value="suthardinesh626"
+        id="usernameInput"
+        placeholder="Enter Github Username"
+      />
+      <button id="getRepoButton">Get My Repository</button>
     </div>
-    <div class="users">
-        <img id="userAvatar" src="default_image.jpg" alt="User Avatar" width="200px" />
-        <div class="user_detaile">
-
-        </div>
+    <div class="first_info"><h2>Enter your Github ID</h2></div>
+    <div class="hide_data" id="hide_data">
+      <div class="users">
+        <img
+          id="userAvatar"
+          src="default_image.jpg"
+          alt="User Avatar"
+          width="200px"
+        />
+        <div class="user_detaile"></div>
+      </div>
+      <div class="edit">
+        <h4 class="repository_title">Repositroy:</h4>
+        <label for="perPageInput">Items per page:</label>
+        <input type="number" id="perPageInput" value="10" min="1" max="100" />
+        <button id="applyButton">Apply</button>
+      </div>
+      <div id="repoContainer"></div>
+      <div class="buttons">
+        <button id="prevButton">Previous</button>
+        <button id="nextButton">Next</button>
+      </div>
     </div>
-    <h4 class="repository_title">Repositroy: </h4>
-    <div>
-        <div id="repoContainer">
-        </div>
-</body>
-
+  </body>
 </html>
