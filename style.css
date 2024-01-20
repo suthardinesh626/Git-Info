@@ -1,0 +1,53 @@
+#repoContainer {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  /* width: 170px; */
+  background-color: blanchedalmond;
+  gap: 4;
+  width: 50%;
+}
+#repoContainer h5 {
+  /* width: 350px;
+  height: 130px; */
+  /* background-color: #fff; */
+  /* padding: 20px; */
+  /* margin: 10px; */
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  font-weight: 600;
+  font-size: larger;
+  /* border: solid gray 3px; */
+  text-decoration: underline;
+}
+.repo {
+    margin: 30px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    background-color: #f9f9f9c7;
+    width: 350px;
+    height: 150px;
+    border: solid gray 2px;
+    border-radius: 10px;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.12), 0 2px 2px rgba(0,0,0,0.12);
+}
+.users{
+    width: 50vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 40px;
+    /* background-color: yellow; */
+    padding: 30px;
+    font-size: larger;
+    font-weight: 600;
+}
+#userAvatar{
+    border-radius: 25px;
+    border: solid red 2px;
+}
